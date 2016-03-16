@@ -39,4 +39,11 @@ app.post('/speciess', (req, res) => {
   });
 });
 
+app.put('/speciess/:id', (req, res) => {
+  Species.findByIdAndUpdate(req.params.id, req.body, (err, species) => {
+    if (err) return res.status(500).send('error updating species').end();
+    return res.status(200).json(species).end();
+  });
+});
+
 app.listen(3000, () => console.log('server speaking.'));

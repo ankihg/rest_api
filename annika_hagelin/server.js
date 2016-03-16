@@ -1,7 +1,9 @@
 'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const mongoose = require('mongoose');
+let Species = require(__dirname+'/models/species-model.js');
 
 let app = express();
 
@@ -16,7 +18,25 @@ app.use((req, res, next) => {
 });
 
 app.get('/speciess', (req, res) => {
-  res.sendStatus(200).end();
+  Species.find({}, (err, speciess) => {
+    if (err) return res.status(500).send('error reading speciess').end();
+    return res.status(200).json(speciess).end();
+  });
+});
+
+app.get('/speciess/:id', (req, res) => {
+  Species.findById(req.params.id, (err, species) => {
+    if (err) return res.status(500).send('error reading species '+req.params.id).end();
+    return res.status(200).json(species).end();
+  });
+});
+
+app.post('/speciess', (req, res) => {
+  var newSpecies = new Species(req.body);
+  newSpecies.save((err, species) => {
+    if (err) return res.status(500).send('error creating species').end();
+    return res.status(200).json(species).end();
+  });
 });
 
 app.listen(3000, () => console.log('server speaking.'));

@@ -26,7 +26,7 @@ app.get('/speciess', (req, res) => {
 
 app.get('/speciess/:id', (req, res) => {
   Species.findById(req.params.id, (err, species) => {
-    if (err) return res.status(500).send('error reading species '+req.params.id).end();
+    if (err) return res.status(500).send('error reading species with id  '+req.params.id).end();
     return res.status(200).json(species).end();
   });
 });
@@ -41,8 +41,15 @@ app.post('/speciess', (req, res) => {
 
 app.put('/speciess/:id', (req, res) => {
   Species.findByIdAndUpdate(req.params.id, req.body, (err, species) => {
-    if (err) return res.status(500).send('error updating species').end();
+    if (err) return res.status(500).send('error updating species with id '+req.params.id).end();
     return res.status(200).json(species).end();
+  });
+});
+
+app.delete('/speciess/:id', (req, res) => {
+  Species.findByIdAndRemove(req.params.id, (err) => {
+    if (err) return res.status(500).send('error deleting species with id '+req.params.id);
+    return res.sendStatus(200);
   });
 });
 

@@ -20,8 +20,6 @@ module.exports = (router, models) => {
     // });
   })
   .post((req, res) => {
-    console.log(req.body.species);
-    // req.body.species.type = req.body.species;
     // req.body.species = models.Species.findById(req.body.species);
     console.log(req.body.species);
     var newTree = new Tree(req.body);
@@ -36,10 +34,17 @@ module.exports = (router, models) => {
 
   router.route('/trees/:id')
   .get((req, res) => {
-    Tree.findById(req.params.id, (err, tree) => {
-      if (err) return res.status(500).send('error reading tree with id  '+req.params.id).end();
-      return res.status(200).json(tree).end();
+    Tree.findById(req.params.id)
+    .populate('species')
+    .exec((err, tree) => {
+      if (err) return res.sendStatus(500);
+      return res.status(200).send(tree);
     });
+
+    // Tree.findById(req.params.id, (err, tree) => {
+    //   if (err) return res.status(500).send('error reading tree with id  '+req.params.id).end();
+    //   return res.status(200).json(tree).end();
+    // });
   })
   .put((req, res) => {
     Tree.findByIdAndUpdate(req.params.id, req.body, (err, tree) => {

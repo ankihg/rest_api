@@ -20,6 +20,7 @@ module.exports = (router, models) => {
     });
   })
   .post((req, res) => {
+    console.log(req.body);
     var newSpecies = new Species(req.body);
     newSpecies.save((err, species) => {
       if (err) return res.status(500).send('error creating species').end();

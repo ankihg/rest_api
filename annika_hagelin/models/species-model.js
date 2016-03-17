@@ -1,9 +1,10 @@
 'use strict';
-const mongoose = require('mongoose');
+module.exports = (mongoose, models) => {
 
-const speciesSchema = new mongoose.Schema({
-  name: String,
-  cmnName: String
-});
+  const speciesSchema = new mongoose.Schema({
+    name: String,
+    cmnName: String
+  });
 
-module.exports = mongoose.model('Species', speciesSchema);
+  models.Species = mongoose.model('Species', speciesSchema);
+}

@@ -2,12 +2,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const mongoose = require('mongoose');
-
 let app = express();
+let router = new express.Router();
 
-let DB_PORT = process.env.MONGOLAB_URI || 'mongodb://localhost/db';
-mongoose.connect(DB_PORT);
+let models = require(__dirname + '/models');
+
+// const mongoose = require('mongoose');
+// let DB_PORT = process.env.MONGOLAB_URI || 'mongodb://localhost/db';
+// mongoose.connect(DB_PORT);
 
 app.use(bodyParser.json());
 
@@ -16,8 +18,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/speciess', require(__dirname + '/routes/speciess-router.js'));
+require(__dirname + '/routes/speciess-router.js')(router, models);
 
-app.use('/trees', require(__dirname + '/routes/trees-router.js'));
+app.use(router);
+
+// app.use('/speciess', require(__dirname + '/routes/speciess-router.js'));
+
+// app.use('/trees', require(__dirname + '/routes/trees-router.js'));
 
 app.listen(3000, () => console.log('server speaking.'));

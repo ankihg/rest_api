@@ -1,10 +1,13 @@
 'use strict';
-const express = require('express');
-const router = module.exports = new express.Router();
-let Species = require(__dirname+'/../models/species-model.js');
+module.exports = (router, models) => {
+  // const express = require('express');
+  // const router = module.exports = new express.Router();
+  // let Species = require(__dirname+'/../models/species-model.js');
+  let Species = models.Species;
 
-router.route('/')
+  router.route('/speciess')
   .get((req, res) => {
+    console.log('get /speciess response');
     Species.find({}, (err, speciess) => {
       if (err) return res.status(500).send('error reading speciess').end();
       return res.status(200).json(speciess).end();
@@ -18,7 +21,7 @@ router.route('/')
     });
   });
 
-router.route('/:id')
+  router.route('/speciess/:id')
   .get((req, res) => {
     Species.findById(req.params.id, (err, species) => {
       if (err) return res.status(500).send('error reading species with id  '+req.params.id).end();
@@ -37,3 +40,4 @@ router.route('/:id')
       return res.sendStatus(200);
     });
   });
+}

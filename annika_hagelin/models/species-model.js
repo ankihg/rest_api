@@ -2,7 +2,8 @@
 module.exports = (mongoose, models) => {
 
   const speciesSchema = new mongoose.Schema({
-    name: String,
+    genus: String,
+    species: String,
     cmnName: String
   });
 

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (mongoose, models) => {
   const treeSchema = new mongoose.Schema({
-    name: String,
+    species: {type: mongoose.Schema.Types.ObjectId, ref: 'Species'},
     lat: Number,
     lng: Number
   });

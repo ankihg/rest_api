@@ -7,7 +7,13 @@ module.exports = (router, models) => {
 
   router.route('/speciess')
   .get((req, res) => {
-    console.log('get /speciess response');
+    // Species.find({})
+    // .populate('trees')
+    // .exec((err, speciess) => {
+    //   if (err) return res.sendStatus(500);
+    //   return res.status(200).send(speciess);
+    // });
+
     Species.find({}, (err, speciess) => {
       if (err) return res.status(500).send('error reading speciess').end();
       return res.status(200).json(speciess).end();

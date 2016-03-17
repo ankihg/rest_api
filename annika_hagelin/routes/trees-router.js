@@ -7,15 +7,29 @@ module.exports = (router, models) => {
 
   router.route('/trees')
   .get((req, res) => {
-    Tree.find({}, (err, trees) => {
-      if (err) return res.status(500).send('error reading trees').end();
-      return res.status(200).json(trees).end();
+    Tree.find({})
+    .populate('species')
+    .exec((err, trees) => {
+      if (err) return res.sendStatus(500);
+      return res.status(200).send(trees);
     });
+
+    // Tree.find({}, (err, trees) => {
+    //   if (err) return res.status(500).send('error reading trees').end();
+    //   return res.status(200).json(trees).end();
+    // });
   })
   .post((req, res) => {
+    console.log(req.body.species);
+    // req.body.species.type = req.body.species;
+    // req.body.species = models.Species.findById(req.body.species);
+    console.log(req.body.species);
     var newTree = new Tree(req.body);
     newTree.save((err, tree) => {
-      if (err) return res.status(500).send('error creating tree').end();
+      if (err) {
+        console.log(err);
+        return res.status(500).send('error creating tree').end();
+      }
       return res.status(200).json(tree).end();
     });
   });

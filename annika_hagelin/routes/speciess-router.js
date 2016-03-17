@@ -20,12 +20,22 @@ module.exports = (router, models) => {
     });
   })
   .post((req, res) => {
-    console.log(req.body);
-    var newSpecies = new Species(req.body);
-    newSpecies.save((err, species) => {
-      if (err) return res.status(500).send('error creating species').end();
-      return res.status(200).json(species).end();
-    });
+    Species.find(req.body, (err, matches) => {
+      if (matches.length) return res.status(200).send(matches[0]);
+
+      var newSpecies = new Species(req.body);
+      newSpecies.save((err, species) => {
+        if (err) return res.status(500).send('error creating species').end();
+        return res.status(200).json(species).end();
+      });
+    })
+
+
+    // var newSpecies = new Species(req.body);
+    // newSpecies.save((err, species) => {
+    //   if (err) return res.status(500).send('error creating species').end();
+    //   return res.status(200).json(species).end();
+    // });
   });
 
   router.route('/speciess/:id')
@@ -36,10 +46,19 @@ module.exports = (router, models) => {
     });
   })
   .put((req, res) => {
-    Species.findByIdAndUpdate(req.params.id, req.body, (err, species) => {
-      if (err) return res.status(500).send('error updating species with id '+req.params.id).end();
-      return res.status(200).json(species).end();
+    Species.find(req.body, (err, matches) => {
+      if (matches.length) return res.status(200).send(matches[0]);
+
+      Species.findByIdAndUpdate(req.params.id, req.body, (err, species) => {
+        if (err) return res.status(500).send('error updating species with id '+req.params.id).end();
+        return res.status(200).json(species).end();
+      });
     });
+
+    // Species.findByIdAndUpdate(req.params.id, req.body, (err, species) => {
+    //   if (err) return res.status(500).send('error updating species with id '+req.params.id).end();
+    //   return res.status(200).json(species).end();
+    // });
   })
   .delete((req, res) => {
     Species.findByIdAndRemove(req.params.id, (err) => {

@@ -7,6 +7,6 @@ mongoose.connect(DB_PORT);
 let models = {};
 
 require(__dirname + '/species-model.js')(mongoose, models);
-// requrie(_)
+require(__dirname + '/tree-model.js')(mongoose, models);
 
 module.exports = models;

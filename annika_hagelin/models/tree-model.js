@@ -1,10 +1,10 @@
 'use strict';
-const mongoose = require('mongoose');
+module.exports = (mongoose, models) => {
+  const treeSchema = new mongoose.Schema({
+    name: String,
+    lat: Number,
+    lng: Number
+  });
 
-const treeSchema = new mongoose.Schema({
-  name: String,
-  lat: Number,
-  lng: Number
-});
-
-module.exports = mongoose.model('Tree', treeSchema);
+  models.Tree = mongoose.model('Tree', treeSchema);
+}

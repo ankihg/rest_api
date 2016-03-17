@@ -1,9 +1,11 @@
 'use strict';
-const express = require('express');
-const router = module.exports = new express.Router();
-let Tree = require(__dirname+'/../models/tree-model.js');
+module.exports = (router, models) => {
+// const express = require('express');
+// const router = module.exports = new express.Router();
+// let Tree = require(__dirname+'/../models/tree-model.js');
+  let Tree = models.Tree;
 
-router.route('/')
+  router.route('/trees')
   .get((req, res) => {
     Tree.find({}, (err, trees) => {
       if (err) return res.status(500).send('error reading trees').end();
@@ -18,7 +20,7 @@ router.route('/')
     });
   });
 
-router.route('/:id')
+  router.route('/trees/:id')
   .get((req, res) => {
     Tree.findById(req.params.id, (err, tree) => {
       if (err) return res.status(500).send('error reading tree with id  '+req.params.id).end();
@@ -37,3 +39,4 @@ router.route('/:id')
       return res.sendStatus(200);
     });
   });
+}

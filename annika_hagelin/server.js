@@ -19,6 +19,7 @@ app.use((req, res, next) => {
 });
 
 require(__dirname + '/routes/speciess-router.js')(router, models);
+require(__dirname + '/routes/trees-router.js')(router, models);
 
 app.use(router);
 

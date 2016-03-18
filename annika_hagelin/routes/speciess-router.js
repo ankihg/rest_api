@@ -69,6 +69,7 @@ module.exports = (router, models) => {
 
   router.route('/speciess/:id/trees')
   .get((req, res) => {
+    console.log('get trees of species');
     models.Tree.find({species: req.params.id}, (err, trees) => {
       if (err) return res.status(500).send('error find trees of requested species');
       return res.status(200).send(trees);

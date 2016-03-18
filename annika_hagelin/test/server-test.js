@@ -203,6 +203,17 @@ describe('server testing', () => {
       });
     });
 
+    it('should get all trees of species cedrus deodara', (done) => {
+      request('localhost:3000')
+      .get('/speciess/'+cedrusDeodaraID+'/trees')
+      .end((err, res) => {
+        console.log(err);
+        expect(err).eql(null);
+        expect(res).status(200);
+        expect(res.body.length).eql(1);
+        done();
+      });
+    });
 
   });
 

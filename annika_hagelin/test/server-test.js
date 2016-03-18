@@ -207,7 +207,6 @@ describe('server testing', () => {
       request('localhost:3000')
       .get('/speciess/'+cedrusDeodaraID+'/trees')
       .end((err, res) => {
-        console.log(err);
         expect(err).eql(null);
         expect(res).status(200);
         expect(res.body.length).eql(1);

@@ -158,7 +158,7 @@ describe('server testing', () => {
       });
     });
 
-    it('should get all trees', (done) => {
+    it('should get all 2 trees', (done) => {
       request('localhost:3000')
       .get('/trees')
       .end((err, res) => {
@@ -180,6 +180,30 @@ describe('server testing', () => {
         done();
       });
     });
+
+    it('should delete cedrus atlantica at lat:14 lng:9', (done) => {
+      request('localhost:3000')
+      .del('/trees/'+cedrusAtlantica_14_9ID)
+      .end((err, res) => {
+        expect(err).eql(null);
+        expect(res).status(200);
+        expect(res.body._id).not.eql(null);
+        done();
+      });
+    });
+
+    it('should get all 1 trees', (done) => {
+      request('localhost:3000')
+      .get('/trees')
+      .end((err, res) => {
+        expect(err).eql(null);
+        expect(res).status(200);
+        expect(res.body.length).eql(1);
+        done();
+      });
+    });
+
+
   });
 
   after((done) => {

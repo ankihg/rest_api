@@ -66,4 +66,12 @@ module.exports = (router, models) => {
       return res.sendStatus(200);
     });
   });
+
+  router.route('/speciess/:id/trees')
+  .get((req, res) => {
+    models.Tree.find({species: req.params.id}, (err, trees) => {
+      if (err) return res.status(500).send('error find trees of requested species');
+      return res.status(200).send(trees);
+    });
+  });
 }

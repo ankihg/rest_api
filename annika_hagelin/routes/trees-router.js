@@ -21,7 +21,6 @@ module.exports = (router, models) => {
   })
   .post((req, res) => {
     // req.body.species = models.Species.findById(req.body.species);
-    console.log(req.body.species);
     var newTree = new Tree(req.body);
     newTree.save((err, tree) => {
       if (err) {

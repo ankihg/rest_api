@@ -1,8 +1,13 @@
+'use strict';
 const chai = require('chai');
 chai.use(require('chai-http'));
 
 var request = chai.request;
 var expect = chai.expect;
+
+var mongoose = require('mongoose');
+let DB_PORT = process.env.MONGOLAB_URI || 'mongodb://localhost/db';
+mongoose.connect(DB_PORT);
 
 describe('server testing', () => {
 
@@ -21,6 +26,7 @@ describe('server testing', () => {
       .end((err, res) => {
         expect(err).eql(null);
         expect(res).status(200);
+        expect(res.body._id).not.eql(null);
         cedrusDeodaraID = res.body._id;
         done();
       });
@@ -33,6 +39,7 @@ describe('server testing', () => {
       .end((err, res) => {
         expect(err).eql(null);
         expect(res).status(200);
+        expect(res.body._id).not.eql(null);
         livermoriumLawrenceID = res.body._id;
         done();
       });
@@ -45,6 +52,7 @@ describe('server testing', () => {
       .end((err, res) => {
         expect(err).eql(null);
         expect(res).status(200);
+        expect(res.body._id).not.eql(null);
         plzusRespondaID = res.body._id;
         done();
       });
@@ -57,6 +65,7 @@ describe('server testing', () => {
       .end((err, res) => {
         expect(err).eql(null);
         expect(res).status(200);
+        expect(res.body._id).not.eql(null);
         memusDeletaID = res.body._id;
         done();
       });
@@ -79,6 +88,7 @@ describe('server testing', () => {
         expect(err).eql(null);
         expect(res).status(200);
         expect(res.body.species).eql('deodara');
+        expect(res.body._id).not.eql(null);
         done();
       });
     });
@@ -108,7 +118,38 @@ describe('server testing', () => {
 
   describe('trees resource testing', () => {
 
-    // it('should post cedrus deodara ');
+    var cedrusDeodara_55_15ID;
 
+    it('should post cedrus deodara at lat:55 lng:12', (done) => {
+      request('localhost:3000')
+      .post('/trees')
+      .send({"species":cedrusDeodaraID, "lat":55, "lng":12})
+      .end((err, res) => {
+        expect(err).eql(null);
+        expect(res).status(200);
+        expect(res.body._id).not.eql(null);
+        cedrusDeodara_55_15ID = res.body._id;
+        done();
+      });
+    });
+
+    it('should get cedrus deodara at lat:55 lng:12 by id', (done) => {
+      request('localhost:3000')
+      .get('/trees/'+cedrusDeodara_55_15ID)
+      .end((err, res) => {
+        expect(err).eql(null);
+        expect(res).status(200);
+        expect(res.body._id).not.eql(null);
+        done();
+      });
+    });
+
+  });
+
+  after((done) => {
+    mongoose.connection.db.dropDatabase((err) => {
+      console.log('database dropped');
+      done();
+    });
   });
 });

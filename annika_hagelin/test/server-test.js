@@ -118,7 +118,8 @@ describe('server testing', () => {
 
   describe('trees resource testing', () => {
 
-    var cedrusDeodara_55_15ID;
+    var cedrusDeodara_55_12ID;
+    var cedrusAtlantica_14_9ID;
 
     it('should post cedrus deodara at lat:55 lng:12', (done) => {
       request('localhost:3000')
@@ -128,14 +129,27 @@ describe('server testing', () => {
         expect(err).eql(null);
         expect(res).status(200);
         expect(res.body._id).not.eql(null);
-        cedrusDeodara_55_15ID = res.body._id;
+        cedrusDeodara_55_12ID = res.body._id;
+        done();
+      });
+    });
+
+    it('should post cedrus atlantica at lat:14 lng:9', (done) => {
+      request('localhost:3000')
+      .post('/trees')
+      .send({"species":cedrusAtlanticaID, "lat":14, "lng":9})
+      .end((err, res) => {
+        expect(err).eql(null);
+        expect(res).status(200);
+        expect(res.body._id).not.eql(null);
+        cedrusAtlantica_14_9ID = res.body._id;
         done();
       });
     });
 
     it('should get cedrus deodara at lat:55 lng:12 by id', (done) => {
       request('localhost:3000')
-      .get('/trees/'+cedrusDeodara_55_15ID)
+      .get('/trees/'+cedrusDeodara_55_12ID)
       .end((err, res) => {
         expect(err).eql(null);
         expect(res).status(200);
@@ -144,6 +158,28 @@ describe('server testing', () => {
       });
     });
 
+    it('should get all trees', (done) => {
+      request('localhost:3000')
+      .get('/trees')
+      .end((err, res) => {
+        expect(err).eql(null);
+        expect(res).status(200);
+        expect(res.body.length).eql(2);
+        done();
+      });
+    });
+
+    it('should update credrus deodara lat:55 lng:12 to credrus deodara lat:60 lng:12', (done) => {
+      request('localhost:3000')
+      .put('/trees/'+cedrusDeodara_55_12ID)
+      .send({"species":cedrusDeodaraID, "lat":60, "lng":12})
+      .end((err, res) => {
+        expect(err).eql(null);
+        expect(res).status(200);
+        expect(res.body._id).not.eql(null);
+        done();
+      });
+    });
   });
 
   after((done) => {
